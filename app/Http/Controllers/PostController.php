@@ -11,4 +11,5 @@ class PostController extends Controller
     protected $serviceClass = PostService::class;
     protected $storeRequestClass = PostStoreRequest::class;
     protected $updateRequestClass = PostUpdateRequest::class;
+
 }

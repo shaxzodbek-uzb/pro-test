@@ -7,6 +7,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+
+// api route -> controller -> service -> controller
 class Controller extends BaseController
 {
     protected $service;
@@ -40,7 +42,7 @@ class Controller extends BaseController
         $item = $this->service->store($data);
         
         // response
-        return $item;
+        return response()->json($item);
     }
 
     // update

@@ -1,8 +1,9 @@
 <?php
 namespace App\Services;
 
-class Service {
+use Illuminate\Database\Eloquent\Model;
 
+class Service {
     protected $model;
     protected $modelClass;
 
@@ -12,7 +13,7 @@ class Service {
 
     public function index()
     {
-        $items = $this->model->get();
+        $items = $this->model::all();
         return $items;
     }
 
@@ -24,7 +25,13 @@ class Service {
     public function store($data)
     {
         // service store
-        $item = $this->model->create($data);
+        // $item = $this->model->create($data);
+        $item = $this->model;
+        $fields = $this->getFields();
+        foreach ($fields as $field) {
+            $field->fill($item, $data);
+        }
+        $item->save();
         return $item;
     }
 
@@ -40,5 +47,10 @@ class Service {
     public function destroy($id)
     {
         $this->model->find($id)->delete();
+    }
+
+    public function getFields()
+    {
+        return [];
     }
 }
