@@ -10,8 +10,8 @@ class PostService extends Service {
     {
         
         return [
-            InputField::make('name'),
-            InputField::make('slug'),
+            InputField::make('name')->required()->max(255),
+            InputField::make('slug')->required(),
         ];
     }
 }

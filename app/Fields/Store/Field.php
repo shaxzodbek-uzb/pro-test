@@ -1,17 +1,15 @@
 <?php
 namespace App\Fields\Store;
 
+
 class Field {
+    use ValidationTrait;
+    
     protected $name;
     protected $type;
 
-    protected $beforeSaveClouser;
-
     public static function make($name)
     {
-        // 
-        // $this instance
-        // self class
         $class = get_called_class();
         return new $class($name);
     }
@@ -20,5 +18,10 @@ class Field {
     {
         $this->beforeSaveClouser = $callback;
         return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

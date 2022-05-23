@@ -1,7 +1,8 @@
 <?php
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class Service {
     protected $model;
@@ -22,12 +23,27 @@ class Service {
         return $item;
     }
 
-    public function store($data)
+    public function store(Request $request)
     {
+        $fields = $this->getFields();
+        $rules = [];
+        foreach ($fields as $field) {
+            $rules[$field->getName()] = $field->getRules();
+        }
+        // validation
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'errors' => $validator->errors(),
+            ];
+        }
+        // Retrieve the validated input...
+        $data = $validator->validated();
         // service store
         // $item = $this->model->create($data);
         $item = $this->model;
-        $fields = $this->getFields();
         foreach ($fields as $field) {
             $field->fill($item, $data);
         }
@@ -35,12 +51,31 @@ class Service {
         return $item;
     }
 
-    public function update($id, $data)
+    public function update($id, Request $request)
     {
+        
+        $fields = $this->getFields();
+        $rules = [];
+        foreach ($fields as $field) {
+            $rules[$field->getName()] = $field->getRules();
+        }
+        // validation
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'errors' => $validator->errors(),
+            ];
+        }
+        // Retrieve the validated input...
+        $data = $validator->validated();
         $item = $this->find($id);
-
+        foreach ($fields as $field) {
+            $field->fill($item, $data);
+        }
         // service update
-        $item->update($data);
+        $item->update();
         return $item;
     }
 

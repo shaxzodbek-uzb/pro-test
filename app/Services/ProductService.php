@@ -11,8 +11,8 @@ class ProductService extends Service {
     public function getFields()
     {
         return [
-            InputField::make('name')->beforeSave(fn($value) => Str::upper($value)),
-            NumberField::make('price'),
+            InputField::make('name')->required()->beforeSave(fn($value) => Str::upper($value)),
+            NumberField::make('price')->numeric()->required(),
         ];
     }
 }
