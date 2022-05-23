@@ -11,7 +11,7 @@ class NumberField extends Field
 
     public function fill($item, $data)
     {
-        $value = $data[$this->name] * 100;
+        $value = $data[$this->name];
         // preccess
         $item->{$this->name} = $value;
     }
